@@ -46,9 +46,9 @@ router.put('/update/:id', (req, res) => {
 router.delete('/delete/:id', (req, res) => {
     const { id } = req.params;
     connection.query('DELETE FROM forklift WHERE id_forklift = ?', [id], (err, result) => {
-        if (err) return res.status(500).json({ pesan: 'Gagal menghapus forklift.' });
-        if (result.affectedRows === 0) return res.status(404).json({ pesan: 'Forklift tidak ditemukan.' });
-        res.json({ pesan: 'Forklift berhasil dihapus.' });
+        if (err) return res.status(500).json({ message: 'Gagal menghapus forklift.' });
+        if (result.affectedRows === 0) return res.status(404).json({ message: 'Forklift tidak ditemukan.' });
+        res.json({ message: 'Forklift berhasil dihapus.' });
     });
 });
 
