@@ -7,16 +7,16 @@ router.post('/create', (req, res) => {
     connection.query('INSERT INTO forklift SET ?', data, (err, result) => {
         if (err) {
             console.error('Error:', err);
-            return res.status(500).json({ pesan: 'Gagal menambahkan forklift.' });
+            return res.status(500).json({ message: 'Gagal menambahkan forklift.' });
         }
-        res.status(201).json({ pesan: 'Forklift berhasil ditambahkan.' });
+        res.status(201).json({ message: 'Forklift berhasil ditambahkan.' });
     });
 });
 
 // Lihat semua forklift
 router.get('/', (_, res) => {
     connection.query('SELECT * FROM forklift', (err, data) => {
-        if (err) return res.status(500).json({ pesan: 'Gagal mengambil data forklift.' });
+        if (err) return res.status(500).json({ message: 'Gagal mengambil data forklift.' });
         res.json(data);
     });
 });
@@ -25,8 +25,8 @@ router.get('/', (_, res) => {
 router.get('/:id', (req, res) => {
     const { id } = req.params;
     connection.query('SELECT * FROM forklift WHERE id_forklift = ?', [id], (err, data) => {
-        if (err) return res.status(500).json({ pesan: 'Kesalahan mengambil data.' });
-        if (data.length === 0) return res.status(404).json({ pesan: 'Forklift tidak ditemukan.' });
+        if (err) return res.status(500).json({ message: 'Kesalahan mengambil data.' });
+        if (data.length === 0) return res.status(404).json({ message: 'Forklift tidak ditemukan.' });
         res.json(data[0]);
     });
 });
@@ -36,9 +36,9 @@ router.put('/update/:id', (req, res) => {
     const { id } = req.params;
     const input = req.body;
     connection.query('UPDATE forklift SET ? WHERE id_forklift = ?', [input, id], (err, result) => {
-        if (err) return res.status(500).json({ pesan: 'Gagal mengubah data forklift.' });
-        if (result.affectedRows === 0) return res.status(404).json({ pesan: 'Forklift tidak ditemukan.' });
-        res.json({ pesan: 'Forklift berhasil diperbarui.' });
+        if (err) return res.status(500).json({ message: 'Gagal mengubah data forklift.' });
+        if (result.affectedRows === 0) return res.status(404).json({ message: 'Forklift tidak ditemukan.' });
+        res.json({ message: 'Forklift berhasil diperbarui.' });
     });
 });
 
