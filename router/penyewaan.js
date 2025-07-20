@@ -11,13 +11,43 @@ router.post('/create', (req, res) => {
     });
 });
 
+// // Ambil semua penyewaan
+// router.get('/', (_, res) => {
+//     connection.query('SELECT * FROM penyewaan', (err, rows) => {
+//         if (err) return res.status(500).json({ message: 'Gagal mengambil data penyewaan.' });
+//         res.json(rows);
+//     });
+// });
+
 // Ambil semua penyewaan
-router.get('/', (_, res) => {
-    connection.query('SELECT * FROM penyewaan', (err, rows) => {
-        if (err) return res.status(500).json({ message: 'Gagal mengambil data penyewaan.' });
+router.get('/', (req, res) => {
+    const sql = `
+        SELECT 
+            p.id_penyewaan,
+            p.id_forklift,
+            py.id_penyewa,
+            py.nama_penyewa,
+            f.merk_forklift,
+            f.kapasitas_forklift,
+            p.tanggal_sewa,
+            p.lama_sewa,
+            p.total_biaya,
+            f.harga_sewa,
+            py.alamat,
+            py.no_telp
+        FROM penyewaan p
+        JOIN penyewa py ON p.id_penyewa = py.id_penyewa
+        JOIN forklift f ON p.id_forklift = f.id_forklift
+    `;
+    connection.query(sql, (err, rows) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).json({ message: 'Terjadi kesalahan saat mengambil data.' });
+        }
         res.json(rows);
     });
 });
+
 
 // Detail penyewaan berdasarkan id_penyewaan
 router.get('/:id', (req, res) => {
